@@ -65,9 +65,9 @@ app.post('/api/import-roster', upload.single('file'), (req, res) => {
         // Process the data and extract student information
     const students = data.map((row, index) => {
       // Handle different possible column names
-      const name = row['Name'] || row['Full Name'] || row['FullName'] || row['Student Name'] || '';
-      const position = row['Position'] || row['Student ID'] || row['StudentID'] || row['ID'] || row['Student Number'] || '';
-      const department = row['Department'] || row['Email'] || row['Email Address'] || '';
+      const name = row['姓名'] || row['Name'] || row['Full Name'] || row['FullName'] || row['Student Name'] || '';
+      const position = row['职位'] || row['Position'] || row['Student ID'] || row['StudentID'] || row['ID'] || row['Student Number'] || '';
+      const department = row['部门'] || row['Department'] || row['Email'] || row['Email Address'] || '';
       
       return {
         id: uuidv4(),
