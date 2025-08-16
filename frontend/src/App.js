@@ -3,11 +3,14 @@ import axios from 'axios';
 import './styles/index.css';
 import RosterImport from './components/RosterImport';
 import CallTheRoll from './components/CallTheRoll';
+import LanguageSwitcher from './components/LanguageSwitcher';
+import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 
-function App() {
+function AppContent() {
   const [roster, setRoster] = useState([]);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const { t } = useLanguage();
 
   // Fetch roster on component mount
   useEffect(() => {
@@ -27,7 +30,7 @@ function App() {
 
   const handleRosterImport = async (importedRoster) => {
     setRoster(importedRoster);
-    setSuccess('Roster imported successfully!');
+    setSuccess(t('rosterImported'));
     setTimeout(() => setSuccess(''), 3000);
   };
 
@@ -41,10 +44,10 @@ function App() {
     try {
       await axios.delete('/api/roster');
       setRoster([]);
-      setSuccess('Roster cleared successfully!');
+      setSuccess(t('rosterCleared'));
       setTimeout(() => setSuccess(''), 3000);
     } catch (error) {
-      setError('Error clearing roster');
+      setError(t('errorClearingRoster'));
       setTimeout(() => setError(''), 3000);
     }
   };
@@ -54,8 +57,9 @@ function App() {
   return (
     <div className="container">
       <div className="header">
-        <h1>🎯 Call the Roll</h1>
-        <p>Random Person Selection System</p>
+        <LanguageSwitcher />
+        <h1>🎯 {t('title')}</h1>
+        <p>{t('subtitle')}</p>
       </div>
 
       {error && <div className="alert alert-error">{error}</div>}
@@ -71,15 +75,15 @@ function App() {
         <div className="stats">
           <div className="stat-card">
             <div className="stat-number">{roster.length}</div>
-            <div className="stat-label">Total People</div>
+            <div className="stat-label">{t('totalPeople')}</div>
           </div>
           <div className="stat-card">
             <div className="stat-number">{roster.filter(s => s.hasBeenCalled).length}</div>
-            <div className="stat-label">Called Today</div>
+            <div className="stat-label">{t('calledToday')}</div>
           </div>
           <div className="stat-card">
             <div className="stat-number">{roster.filter(s => !s.hasBeenCalled).length}</div>
-            <div className="stat-label">Remaining</div>
+            <div className="stat-label">{t('remaining')}</div>
           </div>
         </div>
       )}
@@ -88,6 +92,14 @@ function App() {
         <CallTheRoll roster={roster} onRosterUpdate={handleRosterUpdate} />
       )}
     </div>
+  );
+}
+
+function App() {
+  return (
+    <LanguageProvider>
+      <AppContent />
+    </LanguageProvider>
   );
 }
 

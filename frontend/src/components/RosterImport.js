@@ -2,10 +2,12 @@ import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
 import { FiUpload, FiTrash2, FiUsers } from 'react-icons/fi';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const RosterImport = ({ onRosterImport, onClearRoster, rosterCount }) => {
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState('');
+  const { t } = useLanguage();
 
   const onDrop = useCallback(async (acceptedFiles) => {
     if (acceptedFiles.length === 0) return;
@@ -49,12 +51,12 @@ const RosterImport = ({ onRosterImport, onClearRoster, rosterCount }) => {
     <div className="card">
       <h2>
         <FiUsers style={{ marginRight: '0.5rem' }} />
-        Import Roster
+        {t('importRoster')}
       </h2>
       
       {rosterCount > 0 && (
         <div style={{ marginBottom: '1rem', padding: '1rem', background: '#e9ecef', borderRadius: '6px' }}>
-          <strong>Roster:</strong> {rosterCount} people ready for random selection
+          <strong>{t('currentRoster', { count: rosterCount })}</strong>
         </div>
       )}
 
@@ -66,14 +68,14 @@ const RosterImport = ({ onRosterImport, onClearRoster, rosterCount }) => {
         <FiUpload size={48} style={{ marginBottom: '1rem', color: '#667eea' }} />
         <p>
           {isDragActive
-            ? 'Drop the Excel file here...'
-            : 'Drag & drop an Excel file here, or click to select'}
+            ? t('dropFileHere')
+            : t('dragDropText')}
         </p>
         <p style={{ fontSize: '0.9rem', color: '#6c757d', marginTop: '0.5rem' }}>
-          Supported formats: .xlsx, .xls, .csv
+          {t('supportedFormats')}
         </p>
         <p style={{ fontSize: '0.8rem', color: '#6c757d', marginTop: '0.5rem' }}>
-          Expected columns: Name, Position, Department (optional)
+          {t('expectedColumns')}
         </p>
       </div>
 
@@ -91,14 +93,14 @@ const RosterImport = ({ onRosterImport, onClearRoster, rosterCount }) => {
 
       {rosterCount > 0 && (
         <div style={{ marginTop: '1rem', textAlign: 'center' }}>
-          <button
-            className="btn btn-danger"
-            onClick={onClearRoster}
-            style={{ marginLeft: '0.5rem' }}
-          >
-            <FiTrash2 style={{ marginRight: '0.5rem' }} />
-            Clear Roster
-          </button>
+                  <button
+          className="btn btn-danger"
+          onClick={onClearRoster}
+          style={{ marginLeft: '0.5rem' }}
+        >
+          <FiTrash2 style={{ marginRight: '0.5rem' }} />
+          {t('clearRoster')}
+        </button>
         </div>
       )}
     </div>

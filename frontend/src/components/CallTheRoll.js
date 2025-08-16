@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { FiShuffle, FiRotateCcw, FiUsers } from 'react-icons/fi';
+import { useLanguage } from '../contexts/LanguageContext';
 
 const CallTheRoll = ({ roster, onRosterUpdate }) => {
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [isCalling, setIsCalling] = useState(false);
+  const { t } = useLanguage();
 
   // Sync roster state with backend when component mounts
   useEffect(() => {
@@ -32,7 +34,7 @@ const CallTheRoll = ({ roster, onRosterUpdate }) => {
 
   const handleRandomCall = async () => {
     if (roster.length === 0) {
-      alert('No people in roster to call on');
+      alert(t('noPeopleToCall'));
       return;
     }
 
@@ -60,7 +62,7 @@ const CallTheRoll = ({ roster, onRosterUpdate }) => {
         alert(result.error);
       }
     } catch (error) {
-      alert('Error calling random person');
+      alert(t('errorCallingPerson'));
     } finally {
       setIsCalling(false);
     }
@@ -78,7 +80,7 @@ const CallTheRoll = ({ roster, onRosterUpdate }) => {
       }));
       onRosterUpdate(updatedRoster);
     } catch (error) {
-      alert('Error resetting random call history');
+      alert(t('errorResettingHistory'));
     }
   };
 
@@ -86,7 +88,7 @@ const CallTheRoll = ({ roster, onRosterUpdate }) => {
     <div className="card">
       <h2>
         <FiShuffle style={{ marginRight: '0.5rem' }} />
-        Call the Roll
+        {t('callTheRoll')}
       </h2>
       
       <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
@@ -102,7 +104,7 @@ const CallTheRoll = ({ roster, onRosterUpdate }) => {
           }}
         >
           <FiShuffle style={{ marginRight: '0.5rem' }} />
-          {isCalling ? 'Calling...' : '🎯 Call the Roll'}
+          {isCalling ? t('calling') : `🎯 ${t('callTheRoll')}`}
         </button>
         
         <button
@@ -112,7 +114,7 @@ const CallTheRoll = ({ roster, onRosterUpdate }) => {
           style={{ margin: '1rem' }}
         >
           <FiRotateCcw style={{ marginRight: '0.5rem' }} />
-          Reset Call History
+          {t('resetCallHistory')}
         </button>
       </div>
 
@@ -128,17 +130,17 @@ const CallTheRoll = ({ roster, onRosterUpdate }) => {
           boxShadow: '0 8px 32px rgba(102, 126, 234, 0.3)'
         }}>
           <h3 style={{ margin: '0', fontSize: '2rem', marginBottom: '1rem' }}>
-            🎯 Calling on:
+            🎯 {t('callingOn')}
           </h3>
           <h2 style={{ margin: '0', fontSize: '2.5rem', fontWeight: 'bold' }}>
             {selectedStudent.name}
           </h2>
           <p style={{ margin: '1rem 0 0 0', opacity: 0.9, fontSize: '1.1rem' }}>
-            {selectedStudent.position}
+            {t('position')}: {selectedStudent.position}
           </p>
           {selectedStudent.department && (
             <p style={{ margin: '0.5rem 0 0 0', opacity: 0.8 }}>
-              {selectedStudent.department}
+              {t('department')}: {selectedStudent.department}
             </p>
           )}
         </div>
@@ -147,7 +149,7 @@ const CallTheRoll = ({ roster, onRosterUpdate }) => {
       <div className="student-list">
         <h3 style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center' }}>
           <FiUsers style={{ marginRight: '0.5rem' }} />
-          Roster ({roster.length} people)
+          {t('roster', { count: roster.length })}
         </h3>
         
         {roster.map((student) => (
@@ -187,7 +189,7 @@ const CallTheRoll = ({ roster, onRosterUpdate }) => {
               )}
             </div>
             <div className="student-details">
-              Position: {student.position}
+              {t('position')}: {student.position}
               {student.department && ` • ${student.department}`}
             </div>
             </div>
@@ -197,7 +199,7 @@ const CallTheRoll = ({ roster, onRosterUpdate }) => {
 
       {roster.length === 0 && (
         <div style={{ textAlign: 'center', padding: '2rem', color: '#6c757d' }}>
-          No people in roster. Please import a roster first.
+          {t('noPeopleInRoster')}
         </div>
       )}
     </div>
