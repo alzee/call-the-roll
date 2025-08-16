@@ -1,9 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FiShuffle, FiRotateCcw, FiUsers } from 'react-icons/fi';
 
-const CallTheRoll = ({ roster }) => {
+const CallTheRoll = ({ roster, onRosterUpdate }) => {
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [isCalling, setIsCalling] = useState(false);
+
+  // Sync roster state with backend when component mounts
+  useEffect(() => {
+    const fetchRoster = async () => {
+      try {
+        const response = await fetch('/api/roster');
+        if (response.ok) {
+          const backendRoster = await response.json();
+          // Only update if the backend roster has different hasBeenCalled states
+          const needsUpdate = backendRoster.some((backendStudent, index) => 
+            backendStudent.hasBeenCalled !== roster[index]?.hasBeenCalled
+          );
+          if (needsUpdate) {
+            onRosterUpdate(backendRoster);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching roster:', error);
+      }
+    };
+
+    if (roster.length > 0) {
+      fetchRoster();
+    }
+  }, [roster.length, onRosterUpdate]);
 
   const handleRandomCall = async () => {
     if (roster.length === 0) {
@@ -18,6 +43,15 @@ const CallTheRoll = ({ roster }) => {
       
       if (response.ok) {
         setSelectedStudent(result.student);
+        
+        // Update the roster with the called student
+        const updatedRoster = roster.map(student => 
+          student.id === result.student.id 
+            ? { ...student, hasBeenCalled: true }
+            : student
+        );
+        onRosterUpdate(updatedRoster);
+        
         // Highlight the selected student briefly
         setTimeout(() => {
           setSelectedStudent(null);
@@ -36,7 +70,13 @@ const CallTheRoll = ({ roster }) => {
     try {
       await fetch('/api/reset-random-call', { method: 'POST' });
       setSelectedStudent(null);
-      window.location.reload(); // Refresh to update stats
+      
+      // Update the roster to reset all hasBeenCalled flags
+      const updatedRoster = roster.map(student => ({
+        ...student,
+        hasBeenCalled: false
+      }));
+      onRosterUpdate(updatedRoster);
     } catch (error) {
       alert('Error resetting random call history');
     }

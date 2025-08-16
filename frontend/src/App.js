@@ -31,6 +31,10 @@ function App() {
     setTimeout(() => setSuccess(''), 3000);
   };
 
+  const handleRosterUpdate = (updatedRoster) => {
+    setRoster(updatedRoster);
+  };
+
 
 
   const clearRoster = async () => {
@@ -81,7 +85,7 @@ function App() {
       )}
 
       {roster.length > 0 && (
-        <CallTheRoll roster={roster} />
+        <CallTheRoll roster={roster} onRosterUpdate={handleRosterUpdate} />
       )}
     </div>
   );
