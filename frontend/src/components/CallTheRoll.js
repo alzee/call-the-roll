@@ -91,7 +91,7 @@ const CallTheRoll = ({ roster, onRosterUpdate }) => {
         {t('callTheRoll')}
       </h2>
       
-      <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+      <div style={{ textAlign: 'center', marginBottom: '2rem', paddingBottom: '500px' }}>
         <button
           className="btn"
           onClick={handleRandomCall}
@@ -133,20 +133,20 @@ const CallTheRoll = ({ roster, onRosterUpdate }) => {
             🎯 {t('callingOn')}
           </h3>
           <h2 style={{ margin: '0', fontSize: '2.5rem', fontWeight: 'bold' }}>
-            {selectedStudent.name}
+            {selectedStudent.department}
           </h2>
           <p style={{ margin: '1rem 0 0 0', opacity: 0.9, fontSize: '1.1rem' }}>
-            {t('position')}: {selectedStudent.position}
+            {selectedStudent.name}
           </p>
           {selectedStudent.department && (
             <p style={{ margin: '0.5rem 0 0 0', opacity: 0.8 }}>
-              {t('department')}: {selectedStudent.department}
+              {selectedStudent.position}
             </p>
           )}
         </div>
       )}
 
-      <div className="student-list">
+      <div className="student-list" style={{display: 'none'}}>
         <h3 style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center' }}>
           <FiUsers style={{ marginRight: '0.5rem' }} />
           {t('roster', { count: roster.length })}
