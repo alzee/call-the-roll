@@ -85,13 +85,13 @@ const CallTheRoll = ({ roster, onRosterUpdate }) => {
   };
 
   return (
-    <div className="card">
+    <div className="card" style={{ paddingBottom: '500px' }}>
       <h2>
         <FiShuffle style={{ marginRight: '0.5rem' }} />
         {t('callTheRoll')}
       </h2>
       
-      <div style={{ textAlign: 'center', marginBottom: '2rem', paddingBottom: '500px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
         <button
           className="btn"
           onClick={handleRandomCall}
