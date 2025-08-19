@@ -85,7 +85,7 @@ const CallTheRoll = ({ roster, onRosterUpdate }) => {
   };
 
   return (
-    <div className="card" style={{ paddingBottom: '500px' }}>
+    <div className="card" style={{ paddingBottom: '550px' }}>
       <h2>
         <FiShuffle style={{ marginRight: '0.5rem' }} />
         {t('callTheRoll')}
