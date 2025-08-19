@@ -7,7 +7,7 @@ export default {
   importRoster: "导入名单",
   dragDropText: "拖拽Excel文件到这里，或点击选择",
   supportedFormats: "支持格式: .xlsx, .xls, .csv",
-  expectedColumns: "预期列: 姓名, 职位, 部门 (可选)",
+  expectedColumns: "预期列: 姓名, 职位, 部门 (顺序随意)",
   currentRoster: "名单: {count} 人准备随机选择",
   clearRoster: "清空名单",
   rosterImported: "名单导入成功！",

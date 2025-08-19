@@ -55,9 +55,9 @@ const CallTheRoll = ({ roster, onRosterUpdate }) => {
         onRosterUpdate(updatedRoster);
         
         // Highlight the selected student briefly
-        setTimeout(() => {
-          setSelectedStudent(null);
-        }, 10000); // Show for 5 seconds
+        // setTimeout(() => {
+        //   setSelectedStudent(null);
+        // }, 10000); // Show for 5 seconds
       } else {
         alert(result.error);
       }

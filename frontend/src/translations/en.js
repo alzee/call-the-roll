@@ -7,7 +7,7 @@ export default {
   importRoster: "Import Roster",
   dragDropText: "Drag & drop an Excel file here, or click to select",
   supportedFormats: "Supported formats: .xlsx, .xls, .csv",
-  expectedColumns: "Expected columns: Name, Position, Department (optional)",
+  expectedColumns: "Expected columns: Name, Position, Department(Column names are flexible)",
   currentRoster: "Roster: {count} people ready for random selection",
   clearRoster: "Clear Roster",
   rosterImported: "Roster imported successfully!",
